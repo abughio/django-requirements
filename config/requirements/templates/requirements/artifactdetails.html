@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main%}
+<h1>{{artifact.name}}</h1>
+{% if form %}
+<form action="." method="post">
+    {% csrf_token %}
+    <ul>
+    {% for field in form %}
+
+      <!--  # Text Field
+        # Text Area
+        # Drop Down
+        # Radio
+        # Checkbox
+        -->
+        {% if field.widgetType == "Text Area" %}
+            {{field.label}}:  <textarea name={{field.label}} rows="10" cols="30">{{field.valueType}}</textarea><br>
+        {% elif field.widgetType == "Text Field"%}
+            {{field.label}}: <input type="text" name="{{field.label}}" value="{{field.valueType}}"/><br>
+        {% elif field.widgetType == "Drop Down"%}
+            {{field.label}}:
+            <select name="{{field.label}}" >
+                {% for choice in field.options.all%}
+                    {% if choice.id == field.valueType %}
+                        <option value="{{choice.id}}"  selected>{{choice.value}}</option>
+                    {% else %}
+                        <option value="{{choice.id}}" >{{choice.value}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select><br>
+        {% elif field.widgetType == "Radio"%}
+        {% elif field.widgetType == "CheckBox"%}
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Fields are available.</p>
+{% endif %}
+    <input type="submit" name="Save"/>
+</form>
+{% endblock%}

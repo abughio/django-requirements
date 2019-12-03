@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main%}
+<h1>{{artifacttype.name}}</h1>
+
+{% if artifactList %}
+    <ul>
+    {% for artifact in artifactList %}
+        <li><a href="{%  url 'requirements:aritifact-details' artifact.id %}">{{ artifact.name }} ({{artifact.project.name}})</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Artifacts are available.</p>
+{% endif %}
+<br>
+Create a new {{artifacttype.name}}
+<form method="post" action=".">
+    {% csrf_token %}
+     {{  form|crispy }}
+    <input type="submit" name="Save">
+</form>
+
+{% endblock%}

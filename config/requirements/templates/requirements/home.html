@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main%}
+    {{message}}
+{% if artifactTypes %}
+    <ul>
+    {% for artifacttype in artifactTypes %}
+        <li><a href="{%  url 'requirements:artifact-list' artifacttype.id %}">{{ artifacttype.name }}</a> </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Artifacts are available.</p>
+{% endif %}
+{% endblock%}

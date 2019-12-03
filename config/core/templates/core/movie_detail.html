@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title%}
+{{object.title }} - {{block.super}}
+{% endblock%}
+{% block main%}
+<h1>{{object}}</h1>
+<p class="lead">
+{{object.plot}}
+</p>
+<h2> Directed By </h2>
+ <ul>
+ 	{% if object.director %}
+ 	<li>
+ 		<a href="{% url 'core:PersonDetail' object.director.id %}">
+ 			{{object.director.last_name}},{{object.director.first_name}}
+ 		</a>
+ 	</li>
+ 	{% endif %}	
+ </ul>
+ <h2> Written By </h2>
+ <ul>
+ 	{% for writer in object.writers.all %}
+ 	<li>
+ 		<a href="{% url 'core:PersonDetail' writer.id %}">
+ 			{{writer.last_name}},{{writer.first_name}}
+ 		</a>
+ 	</li>
+ 	{% endfor %}	
+ </ul>
+ <h2> Cast </h2>
+ <ul>
+ 	{% for role in object.role_set.all %}
+ 	<li>
+ 		<a href="{% url 'core:PersonDetail' role.person.id %}">
+ 			{{role.person.last_name}},{{role.person.first_name}} 
+ 		</a>
+ 			 as {{role.name}}
+ 	</li>
+ 	{% endfor %}	
+ </ul>
+{% endblock %}
+{% block sidebar %}
+<div>
+    This movie is rated:
+    <span class="badge badge-primary">
+        {{object.get_rating_display }}
+    </span>
+</div>
+<div>
+	<h2>
+		Score: {{ object.score|default_if_none:"TBD" }}
+	</h2>
+</div>
+<div>
+	{% if vote_form%}
+	<form method="post" action="{{ vote_form_url }}">
+		{% csrf_token%}
+		{{vote_form}}
+		<button class="btn btn-primary">
+			Vote
+		</button>
+	</form>
+	{% else %}
+		<p> Log in to vote for this movie</p>
+	{% endif %}
+</div>
+{% endblock %}

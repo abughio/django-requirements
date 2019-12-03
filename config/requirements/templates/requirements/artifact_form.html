@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main%}
+<h1>{{artifacttype.name}}</h1>
+<form method="post" action=".">
+    {% csrf_token %}
+     {{  form|crispy }}
+    <input type="submit" name="Save">
+</form>
+
+
+{% endblock%}

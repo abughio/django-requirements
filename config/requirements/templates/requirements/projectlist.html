@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main%}
+    {{message}}
+{% if projects %}
+    <ul>
+    {% for project in projects %}
+        <li><a href="{%  url 'requirements:export-doc' project.id %}">{{ project.name }}  ---> Export to Word Document</a> </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Artifacts are available.</p>
+{% endif %}
+{% endblock%}
