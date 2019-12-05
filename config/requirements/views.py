@@ -19,7 +19,6 @@ from .models import ArtifactType, Artifact, ArtifactFields, FieldValues, Artifac
     Project
 
 
-
 def ProjectList(request):
     projects = Project.objects.all()
     context = {"projects": projects}
